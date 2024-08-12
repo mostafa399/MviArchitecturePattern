@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Button
 import android.widget.TextView
+import androidx.core.app.PendingIntentCompat.send
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import kotlinx.coroutines.flow.collect
@@ -27,10 +28,13 @@ class MainActivity : AppCompatActivity() {
         render()
         //send
         addnumberbtn.setOnClickListener{
-            lifecycleScope.launch {
-                viewModel.channels.send(MainIntent.addNumberIntent)
+            send()
+        }
+    }
+    private fun send() {
+        lifecycleScope.launch {
+            viewModel.channels.send(MainIntent.addNumberIntent)
 
-            }
         }
     }
     //render
@@ -39,7 +43,7 @@ class MainActivity : AppCompatActivity() {
             viewModel.state.collect{
                 when(it){
                     is MainViewState.idle->{numbertv.text="Idle"}
-                    is MainViewState.number->{numbertv.text=it.num.toString()}
+                    is MainViewState.number->{ numbertv.text=it.num.toString()}
                     is MainViewState.error->{numbertv.text=it.err.toString()}
 
                 }

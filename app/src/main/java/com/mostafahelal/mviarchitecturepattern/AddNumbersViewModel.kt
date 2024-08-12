@@ -34,7 +34,7 @@ class AddNumbersViewModel : ViewModel() {
         viewModelScope.launch {
             _viewState.value=
                 try {
-                    MainViewState.number(number++)
+                    MainViewState.number(++number)
 
                 }catch (e: Exception) {
                     MainViewState.error(e.message!!)
